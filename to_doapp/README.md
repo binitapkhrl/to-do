@@ -1,16 +1,33 @@
-# to_doapp
+# Todo Architecture (Flutter)
 
-A new Flutter project.
+A learning-focused Flutter application built to deeply understand and practice:
 
-## Getting Started
+- BLoC for business logic
+- Riverpod for dependency injection and global state ownership
+- Beamer for declarative navigation
 
-This project is a starting point for a Flutter application.
+This project starts small (Todo app) and will later evolve into a more complex application (Expense Tracker).
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🎯 Goals
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Learn how to structure a real Flutter application
+- Clearly separate UI, state, and business logic
+- Understand *why* each tool is used, not just *how*
+
+---
+
+## 🧱 Architecture Overview
+
+```text
+UI
+ ↓
+BLoC (Behavior)
+ ↓
+Repository (Data source)
+ ↓
+Models
+
+Riverpod → owns dependencies & global state  
+Beamer → controls navigation flow
