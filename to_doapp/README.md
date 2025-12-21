@@ -6,9 +6,6 @@ A learning-focused Flutter application built to deeply understand and practice:
 - Riverpod for dependency injection and global state ownership
 - Beamer for declarative navigation
 
-This project starts small (Todo app) and will later evolve into a more complex application (Expense Tracker).
-
----
 
 ## 🎯 Goals
 
