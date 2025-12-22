@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../pages/todo_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,9 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Todo Architecture',
-      home: const Scaffold(
-        body: Center(child: Text('Todo App ')),
-      ),
+      home: const TodoPage(),
     );
   }
 }
