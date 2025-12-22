@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Todo Architecture',
       home: const Scaffold(
-        body: Center(child: Text('Todo App Skeleton')),
+        body: Center(child: Text('Todo App ')),
       ),
     );
   }
