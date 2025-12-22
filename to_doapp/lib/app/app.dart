@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Todo Architecture',
-      home: const TodoPage(),
+      home:  TodoPage(),
     );
   }
 }
