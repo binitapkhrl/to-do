@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/todo_notifier.dart';
+import 'package:to_doapp/features/state/todo_notifier.dart';
 
 class TodoPage extends ConsumerWidget {
   const TodoPage({super.key});

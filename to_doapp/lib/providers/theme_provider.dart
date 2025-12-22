@@ -11,6 +11,6 @@ final lightTheme = ThemeData(
 );
 
 final darkTheme = ThemeData(
-  primarySwatch: Colors.green,
+  primarySwatch: Colors.grey,
   brightness: Brightness.dark,
 );
