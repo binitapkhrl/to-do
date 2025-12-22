@@ -1,21 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/todo_notifier.dart';
-import '../todo/model/todo.dart';
-
-final searchQueryProvider = StateProvider<String>((ref) => '');
+import 'package:to_doapp/features/todo/model/todo.dart';
+import 'todo_notifier.dart';
+import 'search_query_provider.dart';
 
 final filteredTodoProvider = Provider<List<Todo>>((ref) {
-  final todosAsync = ref.watch(todoNotifier);
-  final query = ref.watch(searchQueryProvider);
+  final todoAsync = ref.watch(todoNotifier);
+  final query = ref.watch(searchQueryProvider).toLowerCase();
 
-  return todosAsync.maybeWhen(
+  return todoAsync.when(
     data: (todos) {
       if (query.isEmpty) return todos;
+
       return todos
-          .where((todo) =>
-              todo.title.toLowerCase().contains(query.toLowerCase()))
+          .where(
+            (todo) => todo.title.toLowerCase().contains(query),
+          )
           .toList();
     },
-    orElse: () => [],
+    loading: () => [],
+    error: (_, __) => [],
   );
 });

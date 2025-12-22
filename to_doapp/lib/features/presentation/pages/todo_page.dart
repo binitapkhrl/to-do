@@ -1,53 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_doapp/features/state/todo_notifier.dart';
+import 'package:to_doapp/features/state/filtered_todo_provider.dart';
+// import 'package:to_doapp/features/state/search_query_provider.dart';
+import 'package:to_doapp/features/presentation/widgets/search_bar.dart';
 
-class TodoPage extends ConsumerWidget {
-  const TodoPage({super.key});
+class TodoListPage extends ConsumerWidget {
+  const TodoListPage({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todoAsync = ref.watch(todoNotifier);
+    final todos = ref.watch(filteredTodoProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('To-Do List'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh),
-            onPressed: () {
-              ref.read(todoNotifier.notifier).refreshTodos();
-            },
+      appBar: AppBar(title: const Text('To-Do List')),
+      body: Column(
+        children: [
+          const TodoSearchBar(),
+          Expanded(
+            child: todos.isEmpty
+                ? const Center(child: Text('No To-Dos found'))
+                : ListView.builder(
+                    itemCount: todos.length,
+                    itemBuilder: (context, index) {
+                      final todo = todos[index];
+                      return ListTile(
+                        title: Text(todo.title),
+                        // subtitle: Text(todo.description ?? ''),
+                        trailing: Checkbox(
+                          value: todo.completed,
+                          onChanged: (_) =>
+                              ref.read(todoNotifier.notifier).toggleTodo(todo.id),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
-
-body: todoAsync.when(
-  loading: () => const Center(child: CircularProgressIndicator()),
-  error: (err, _) => Center(child: Text(err.toString())),
-  data: (todos) {
-    if (todos.isEmpty) {
-      return const Center(child: Text('No tasks found. Tap refresh!'));
-    }
-
-    return RefreshIndicator(
-      // Users can now pull down to refresh!
-      onRefresh: () => ref.read(todoNotifier.notifier).refreshTodos(),
-      child: ListView.builder(
-        // Always good to have physics for shorter lists in RefreshIndicator
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: todos.length,
-        itemBuilder: (context, index) {
-          final todo = todos[index];
-          return CheckboxListTile(
-            title: Text(todo.title),
-            value: todo.completed,
-            onChanged: (_) => ref.read(todoNotifier.notifier).toggleTodo(todo.id),
-          );
-        },
-      ),
-    );
-  },
-),
     );
   }
 }
