@@ -7,18 +7,17 @@ class TodoSearchBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final searchQuery = ref.watch(searchQueryProvider);
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextField(
-        decoration: InputDecoration(
-          hintText: 'Search To-Dos...',
+        decoration: const InputDecoration(
+          hintText: 'Search todos...',
           prefixIcon: Icon(Icons.search),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          border: OutlineInputBorder(),
         ),
-        onChanged: (value) => ref.read(searchQueryProvider.notifier).state = value,
-        controller: TextEditingController(text: searchQuery),
+        onChanged: (value) {
+          ref.read(searchQueryProvider.notifier).state = value;
+        },
       ),
     );
   }
