@@ -20,21 +20,34 @@ class TodoPage extends ConsumerWidget {
           ),
         ],
       ),
-      body: todoAsync.when(
-        loading: () => Center(child: CircularProgressIndicator()),
-        error: (err, _) => Center(child: Text(err.toString())),
-        data: (todos) => ListView.builder(
-          itemCount: todos.length,
-          itemBuilder: (context, index) {
-            final todo = todos[index];
-            return CheckboxListTile(
-              title: Text(todo.title),
-              value: todo.completed,
-              onChanged: (_) => ref.read(todoNotifier.notifier).toggleTodo(todo.id),
-            );
-          },
-        ),
+
+body: todoAsync.when(
+  loading: () => const Center(child: CircularProgressIndicator()),
+  error: (err, _) => Center(child: Text(err.toString())),
+  data: (todos) {
+    if (todos.isEmpty) {
+      return const Center(child: Text('No tasks found. Tap refresh!'));
+    }
+
+    return RefreshIndicator(
+      // Users can now pull down to refresh!
+      onRefresh: () => ref.read(todoNotifier.notifier).refreshTodos(),
+      child: ListView.builder(
+        // Always good to have physics for shorter lists in RefreshIndicator
+        physics: const AlwaysScrollableScrollPhysics(),
+        itemCount: todos.length,
+        itemBuilder: (context, index) {
+          final todo = todos[index];
+          return CheckboxListTile(
+            title: Text(todo.title),
+            value: todo.completed,
+            onChanged: (_) => ref.read(todoNotifier.notifier).toggleTodo(todo.id),
+          );
+        },
       ),
+    );
+  },
+),
     );
   }
 }
