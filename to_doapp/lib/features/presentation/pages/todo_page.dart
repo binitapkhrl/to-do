@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_doapp/features/state/todo_notifier.dart';
 import 'package:to_doapp/features/state/filtered_todo_provider.dart';
 import 'package:to_doapp/features/presentation/widgets/search_bar.dart';
+import 'package:to_doapp/core/constants/app_strings.dart';
+
 
 class TodoListPage extends ConsumerWidget {
   const TodoListPage({super.key});
@@ -12,7 +14,7 @@ class TodoListPage extends ConsumerWidget {
     final todosAsync = ref.watch(todoNotifier);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('To-Do List')),
+      appBar: AppBar(title: const Text(AppStrings.appTitle)),
       body: todosAsync.when(
         loading: () =>
             const Center(child: CircularProgressIndicator()),
@@ -40,7 +42,7 @@ class TodoListPage extends ConsumerWidget {
                           children: const [
                             SizedBox(height: 200),
                             Center(
-                              child: Text('No To-Dos found'),
+                              child: Text('AppStrings.emptyTodos'),
                             ),
                           ],
                         )
