@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:beamer/beamer.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_doapp/app/router/app_router.dart';
 
 class MyApp extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:to_doapp/features/todo/model/todo.dart'; // Adjust path if needed
+import 'package:to_doapp/features/todo/model/todo.dart'; 
 
 class TodoListItem extends StatelessWidget {
   final Todo todo;
@@ -41,7 +41,7 @@ class TodoListItem extends StatelessWidget {
         trailing: Checkbox(
           value: todo.completed,
           onChanged: onToggle,
-          activeColor: Colors.green, // Optional: nicer checkbox color
+          activeColor: Colors.green, 
         ),
         onTap: onTap,
       ),
