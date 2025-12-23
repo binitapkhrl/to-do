@@ -51,7 +51,7 @@ class TodoDetailPage extends ConsumerWidget {
             padding: const EdgeInsets.all(16.0),
             child: Card(
               elevation: 0, // Material 3 uses subtle tonal elevation
-              color: colorScheme.surfaceVariant.withOpacity(0.3), // Tonal theme color
+              color: colorScheme.surfaceContainerHighest.withAlpha(30), // Tonal theme color
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
                 side: BorderSide(color: colorScheme.outlineVariant), // Subtle border
@@ -81,8 +81,8 @@ class TodoDetailPage extends ConsumerWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: todo.completed 
-                            ? Colors.green.withOpacity(0.1) 
-                            : colorScheme.errorContainer.withOpacity(0.2),
+                            ? Colors.green.withAlpha(35) 
+                            : colorScheme.errorContainer.withAlpha(30),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(

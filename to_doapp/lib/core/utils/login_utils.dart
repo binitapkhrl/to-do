@@ -1,5 +1,14 @@
 
 class LoginUtils {
+   static String? validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Username is required';
+    }
+    if (value.length < 3) {
+      return 'Username must be at least 3 characters';
+    }
+    return null;
+  }
   /// Validates an email address using a Regex pattern.
   static String? validateEmail(String? value) {
     if (value == null || value.isEmpty) {

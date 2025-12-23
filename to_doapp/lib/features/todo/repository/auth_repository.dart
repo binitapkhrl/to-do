@@ -1,7 +1,7 @@
 // lib/features/auth/data/auth_repository.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AuthRepository {
-  Future<bool> signIn(String email, String password) async {
+  Future<bool> signIn(String username,String email, String password) async {
     // Simulate network delay
     await Future.delayed(const Duration(seconds: 2));
 

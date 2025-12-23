@@ -11,11 +11,11 @@ class LoginNotifier extends StateNotifier<AsyncValue<void>> {
 
   LoginNotifier(this._repository, this._authState) : super(const AsyncData(null));
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(String username, String email, String password) async {
     state = const AsyncLoading();
     
     try {
-      final success = await _repository.signIn(email, password);
+      final success = await _repository.signIn(username, email, password);
       if (success) {
         _authState.state = true; // Update the global auth state
         state = const AsyncData(null);

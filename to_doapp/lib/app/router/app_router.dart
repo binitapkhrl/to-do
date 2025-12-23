@@ -20,7 +20,7 @@ static final routerDelegate = BeamerDelegate(
   initialPath: Routes.login,
   locationBuilder: BeamerLocationBuilder(
     beamLocations: [TodoLocation()],
-  ),
+  ).call,
   guards: [
     // PROTECT TODOS: Redirect to login if not authenticated
     BeamGuard(

@@ -18,11 +18,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
@@ -32,6 +34,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     if (_formKey.currentState!.validate()) {
       await ref.read(loginProvider.notifier).login(
+            _usernameController.text,
             _emailController.text,
             _passwordController.text,
           );
@@ -102,6 +105,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         ),
                   ),
                   const SizedBox(height: 48),
+                  CustomTextField(
+                    controller: _usernameController,
+                    label: 'Username',
+                    prefixIcon: Icons.person_outline,
+                    keyboardType: TextInputType.text,
+                    validator: LoginUtils.validateUsername,
+                    // Prevent editing while loading
+                    enabled: !loginState.isLoading, 
+                  ),
+                  const SizedBox(height: 16),
 
                   CustomTextField(
                     controller: _emailController,
