@@ -1,14 +1,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:beamer/beamer.dart';
 import 'package:to_doapp/core/widgets/custom_button.dart';
 import 'package:to_doapp/core/widgets/custom_text_field.dart';
 import 'package:to_doapp/core/utils/login_utils.dart';
 import 'package:to_doapp/features/state/login_provider.dart';
-import 'package:to_doapp/app/router/routes.dart';
 
-// Top-level provider for password visibility
 final passwordVisibilityProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -47,7 +44,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final loginState = ref.watch(loginProvider);
-    // Properly watching the visibility state at the start of build
     final isVisible = ref.watch(passwordVisibilityProvider);
 
     // Listen for state changes (Snackbars/Navigation)
