@@ -1,40 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:beamer/beamer.dart';
+import 'package:to_doapp/app/router/routes.dart';
 import 'package:to_doapp/features/state/todo_notifier.dart';
 import 'package:to_doapp/features/state/filtered_todo_provider.dart';
+import 'package:to_doapp/features/state/user_provider.dart';
 import 'package:to_doapp/features/presentation/widgets/search_bar.dart';
 import 'package:to_doapp/core/widgets/todo_list_item.dart';
 import 'package:to_doapp/core/constants/app_strings.dart';
-import 'package:to_doapp/features/state/login_provider.dart'; // Import to handle logout
+import 'package:to_doapp/features/state/login_provider.dart'; 
 
 class TodoListPage extends ConsumerWidget {
-  const TodoListPage({super.key});
+  const TodoListPage({super.key, required String username});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final todosAsync = ref.watch(todoNotifier);
     final colorScheme = Theme.of(context).colorScheme;
+    final username = ref.watch(currentUsernameProvider) ?? '';
+    final greeting = AppStrings.greeting(username);
 
     return Scaffold(
       // Use the theme's surface color for the background
       backgroundColor: colorScheme.surface,
       
       appBar: AppBar(
-        title: const Text(AppStrings.appTitle),
+        title: Text(greeting),
         centerTitle: true,
         backgroundColor: colorScheme.surface,
         foregroundColor: colorScheme.onSurface,
         elevation: 0,
         actions: [
-          // Added Logout Button
           IconButton(
-            icon: Icon(Icons.logout, color: colorScheme.error),
-            onPressed: () {
-              ref.read(loginProvider.notifier).logout();
-              Beamer.of(context).beamToReplacementNamed('/');
-            },
-          ),
+  icon: Icon(Icons.logout, color: colorScheme.error),
+  onPressed: () {
+    // 1. Reset the Auth State
+    // This tells the whole app we are no longer logged in
+    ref.read(loginProvider.notifier).logout();
+
+    // 2. Redirect to Login
+    // Using beamToReplacementNamed ensures the "Todo" screen is 
+    // removed from history so the user can't "Go Back" to it.
+    Beamer.of(context).beamToReplacementNamed(Routes.login);
+  },
+)
         ],
       ),
 
@@ -53,7 +62,6 @@ class TodoListPage extends ConsumerWidget {
 
           return Column(
             children: [
-              // The SearchBar will now sit on the theme surface
               const TodoSearchBar(),
               
               Expanded(
@@ -88,7 +96,8 @@ class TodoListPage extends ConsumerWidget {
                             return TodoListItem(
                               todo: todo,
                               onTap: () {
-                                Beamer.of(context).beamToNamed('/todos/${todo.id}');
+                                // Beamer.of(context).beamToNamed('/todos/${todo.id}');
+                                Beamer.of(context).beamToNamed(Routes.todoDetailPath(username, todo.id));
                               },
                               onToggle: (_) {
                                 ref.read(todoNotifier.notifier).toggleTodo(todo.id);

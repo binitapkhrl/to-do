@@ -5,7 +5,7 @@ import 'package:to_doapp/core/widgets/custom_button.dart';
 import 'package:to_doapp/core/widgets/custom_text_field.dart';
 import 'package:to_doapp/core/utils/login_utils.dart';
 import 'package:to_doapp/features/state/login_provider.dart';
-import 'package:to_doapp/app/router/routes.dart'; //
+import 'package:to_doapp/app/router/routes.dart'; 
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -55,7 +55,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               backgroundColor: Colors.green,
             ),
           );
-          // 1. Use replacement so user can't "back" into login page
+          // Use replacement so user can't "back" into login page
           Beamer.of(context).beamToReplacementNamed(Routes.todos);
         },
         error: (error, _) {
@@ -111,7 +111,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     prefixIcon: Icons.person_outline,
                     keyboardType: TextInputType.text,
                     validator: LoginUtils.validateUsername,
-                    // Prevent editing while loading
                     enabled: !loginState.isLoading, 
                   ),
                   const SizedBox(height: 16),

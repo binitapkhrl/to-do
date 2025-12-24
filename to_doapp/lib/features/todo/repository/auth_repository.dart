@@ -6,13 +6,14 @@ class AuthRepository {
     await Future.delayed(const Duration(seconds: 2));
 
     // Valid Credentials
+    const validUsername = "testuser";
     const validEmail = "test@test.com";
     const validPassword = "password123";
 
-    if (email == validEmail && password == validPassword) {
+    if (username == validUsername && email == validEmail && password == validPassword) {
       return true;
     } else {
-      throw Exception("Invalid email or password. Hint: test@test.com / password123");
+      throw Exception("Invalid username, email, or password. Hint: testuser / test@test.com / password123");
     }
   }
 }

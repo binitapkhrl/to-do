@@ -7,6 +7,9 @@ class AppStrings {
   static const notCompletion = 'not completed';
   //loginPage
   static const loginTitle = 'Login';
+static String greeting(String username) {
+    return username.isNotEmpty ? 'Hello, $username' : appTitle;
+  }
 
 }
 

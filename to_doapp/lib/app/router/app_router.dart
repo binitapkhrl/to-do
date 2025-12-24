@@ -7,15 +7,8 @@ class AppRouter {
   static const String home = Routes.login;
   static const String todos = Routes.todos;
   static const String todoDetail = Routes.todoDetail;
+  static String todoDetailPath(String username, int id) => Routes.todoDetailPath(username, id);
 
-  // static final routerDelegate = BeamerDelegate(
-  //   locationBuilder: BeamerLocationBuilder(
-  //     beamLocations: [
-  //       TodoLocation(),
-  //     ],
-  //   ),
-  // );
-  // lib/app/router/app_router.dart
 static final routerDelegate = BeamerDelegate(
   initialPath: Routes.login,
   locationBuilder: BeamerLocationBuilder(
@@ -26,8 +19,6 @@ static final routerDelegate = BeamerDelegate(
     BeamGuard(
       pathPatterns: ['/todos*'],
       check: (context, state) {
-        // Here you would check your actual Auth Provider
-        // For now, return false to test the redirect
         return true; 
       },
       beamToNamed: (origin, target) => Routes.login,
