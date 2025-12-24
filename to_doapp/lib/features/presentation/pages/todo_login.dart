@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:beamer/beamer.dart';
@@ -5,7 +6,10 @@ import 'package:to_doapp/core/widgets/custom_button.dart';
 import 'package:to_doapp/core/widgets/custom_text_field.dart';
 import 'package:to_doapp/core/utils/login_utils.dart';
 import 'package:to_doapp/features/state/login_provider.dart';
-import 'package:to_doapp/app/router/routes.dart'; 
+import 'package:to_doapp/app/router/routes.dart';
+
+// Top-level provider for password visibility
+final passwordVisibilityProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -29,13 +33,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> _handleLogin() async {
-    // Hide keyboard on button press
     FocusScope.of(context).unfocus();
 
     if (_formKey.currentState!.validate()) {
       await ref.read(loginProvider.notifier).login(
-            _usernameController.text,
-            _emailController.text,
+            _usernameController.text.trim(),
+            _emailController.text.trim(),
             _passwordController.text,
           );
     }
@@ -44,19 +47,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final loginState = ref.watch(loginProvider);
+    // Properly watching the visibility state at the start of build
+    final isVisible = ref.watch(passwordVisibilityProvider);
 
-    // Listen for state changes for one-time events (Navigation/Snackbars)
+    // Listen for state changes (Snackbars/Navigation)
     ref.listen<AsyncValue<void>>(loginProvider, (previous, next) {
       next.whenOrNull(
         data: (_) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Login successful!'),
-              backgroundColor: Colors.green,
-            ),
+            const SnackBar(content: Text('Login successful!'), backgroundColor: Colors.green),
           );
-          // Use replacement so user can't "back" into login page
-          Beamer.of(context).beamToReplacementNamed(Routes.todos);
+          // Beamer.of(context).beamToReplacementNamed(Routes.todos);
         },
         error: (error, _) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -80,7 +81,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  // App Icon
                   Hero(
                     tag: 'app_logo',
                     child: Icon(
@@ -90,7 +90,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  
                   Text(
                     'Welcome Back',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
@@ -109,49 +108,45 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     controller: _usernameController,
                     label: 'Username',
                     prefixIcon: Icons.person_outline,
-                    keyboardType: TextInputType.text,
                     validator: LoginUtils.validateUsername,
-                    enabled: !loginState.isLoading, 
+                    enabled: !loginState.isLoading,
                   ),
                   const SizedBox(height: 16),
-
                   CustomTextField(
                     controller: _emailController,
                     label: 'Email',
                     prefixIcon: Icons.email_outlined,
                     keyboardType: TextInputType.emailAddress,
                     validator: LoginUtils.validateEmail,
-                    // Prevent editing while loading
-                    enabled: !loginState.isLoading, 
+                    enabled: !loginState.isLoading,
                   ),
                   const SizedBox(height: 16),
-
+                  // Corrected Password Field
                   CustomTextField(
                     controller: _passwordController,
                     label: 'Password',
                     prefixIcon: Icons.lock_outline,
-                    obscureText: true,
+                    obscureText: !isVisible,
+                    suffixIcon: IconButton(
+                      icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () => ref.read(passwordVisibilityProvider.notifier).state = !isVisible,
+                    ),
                     validator: LoginUtils.validatePassword,
                     enabled: !loginState.isLoading,
                   ),
                   const SizedBox(height: 24),
-
                   SizedBox(
                     width: double.infinity,
                     child: CustomButton(
                       text: 'Login',
                       isLoading: loginState.isLoading,
-                      // Disable button while loading
-                     onPressed: loginState.isLoading ? null : () => _handleLogin(),
+                      onPressed: loginState.isLoading ? null : _handleLogin,
                       borderRadius: 12,
                     ),
                   ),
                   const SizedBox(height: 16),
-                  
                   TextButton(
-                    onPressed: loginState.isLoading ? null : () {
-                      // Handle forgot password
-                    },
+                    onPressed: loginState.isLoading ? null : () {},
                     child: const Text('Forgot Password?'),
                   ),
                 ],

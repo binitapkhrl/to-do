@@ -18,7 +18,7 @@ class LoginNotifier extends StateNotifier<AsyncValue<void>> {
       final success = await _repository.signIn(username, email, password);
       if (success) {
         _authState.state = true;
-        _usernameState.state = username; // Store username
+        _usernameState.state = username; 
         state = const AsyncData(null);
       }
     } catch (e, st) {
