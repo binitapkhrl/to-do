@@ -2,6 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import '../../features/presentation/pages/todo_page.dart';
 import '../../features/presentation/pages/todo_detail_page.dart';
+import '../../features/presentation/pages/edit_page.dart';
 import 'package:to_doapp/app/router/routes.dart';
 import 'package:to_doapp/features/presentation/pages/todo_login.dart';
 
@@ -11,6 +12,7 @@ class TodoLocation extends BeamLocation<BeamState> {
         Routes.login,
         Routes.todos,
         Routes.todoDetail,
+        Routes.editTodo,
       ];
  @override
 List<BeamPage> buildPages(BuildContext context, BeamState state) {
@@ -41,12 +43,23 @@ List<BeamPage> buildPages(BuildContext context, BeamState state) {
   // 3. ADD DETAIL PAGE ON TOP: Only if ID exists
   if (state.pathParameters.containsKey('id')) {
     final todoId = int.parse(state.pathParameters['id']!);
-    pages.add(
-      BeamPage(
-        key: ValueKey('todo-$username-$todoId'),
-        child: TodoDetailPage(todoId: todoId),
-      ),
-    );
+    
+    // Check if this is an edit route
+    if (state.uri.path.endsWith('/edit')) {
+      pages.add(
+        BeamPage(
+          key: ValueKey('todo-$username-$todoId-edit'),
+          child: EditTodoPage(todoId: todoId),
+        ),
+      );
+    } else {
+      pages.add(
+        BeamPage(
+          key: ValueKey('todo-$username-$todoId'),
+          child: TodoDetailPage(todoId: todoId),
+        ),
+      );
+    }
   }
 
   return pages; // This list will now never be empty!

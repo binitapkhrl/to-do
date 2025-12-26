@@ -10,6 +10,8 @@ class AppStrings {
 static String greeting(String username) {
     return username.isNotEmpty ? 'Hello, $username' : appTitle;
   }
+  static const signInMessage = 'Sign in to continue to your todos';
+  static const loginMessage = 'Login successful!';
 
 }
 

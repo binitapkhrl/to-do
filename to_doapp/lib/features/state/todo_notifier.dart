@@ -31,7 +31,16 @@ class TodoNotifier extends AutoDisposeAsyncNotifier<List<Todo>> {
         .toList());
   }
   Future<void> deleteTodo(int id) async {
-  final current = state.value ?? await future;
-  state = AsyncData(current.where((todo) => todo.id != id).toList());
-}
+    final current = state.value ?? await future;
+    state = AsyncData(current.where((todo) => todo.id != id).toList());
+  }
+
+  Future<void> updateTodo(int id, String newTitle) async {
+    final current = state.value ?? await future;
+    state = AsyncData(current
+        .map((todo) => todo.id == id
+            ? Todo(id: todo.id, title: newTitle, completed: todo.completed)
+            : todo)
+        .toList());
+  }
 }

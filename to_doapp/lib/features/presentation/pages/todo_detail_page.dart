@@ -4,6 +4,8 @@ import 'package:beamer/beamer.dart';
 import '../../todo/model/todo.dart';
 import '../../state/todo_notifier.dart';
 import '../../state/todo_by_id_provider.dart';
+import '../../state/user_provider.dart';
+import 'package:to_doapp/app/router/routes.dart';
 import 'package:to_doapp/core/constants/app_strings.dart';
 
 class TodoDetailPage extends ConsumerWidget {
@@ -24,6 +26,8 @@ class TodoDetailPage extends ConsumerWidget {
     );
     // Watch only the specific todo by id
     final todo = ref.watch(todoByIdProvider(todoId));
+    // Watch the current username from the provider
+    final username = ref.watch(currentUsernameProvider) ?? 'Guest';
 
     // Access the theme color scheme
     final colorScheme = Theme.of(context).colorScheme;
@@ -127,7 +131,11 @@ class TodoDetailPage extends ConsumerWidget {
                       children: [
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              Beamer.of(context).beamToNamed(
+                                Routes.editTodoPath(username, resolved.id),
+                              );
+                            },
                             icon: const Icon(Icons.edit_outlined),
                             label: const Text('Edit'),
                           ),

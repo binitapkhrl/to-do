@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:to_doapp/core/widgets/custom_button.dart';
 import 'package:to_doapp/core/widgets/custom_text_field.dart';
 import 'package:to_doapp/core/utils/login_utils.dart';
 import 'package:to_doapp/features/state/login_provider.dart';
+import 'package:to_doapp/core/constants/app_strings.dart';
 
 final passwordVisibilityProvider = StateProvider.autoDispose<bool>((ref) => false);
 
@@ -51,7 +51,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       next.whenOrNull(
         data: (_) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login successful!'), backgroundColor: Colors.green),
+            const SnackBar(content: Text(AppStrings.loginMessage), backgroundColor: Color.fromARGB(255, 135, 76, 175)),
           );
           // Beamer.of(context).beamToReplacementNamed(Routes.todos);
         },
@@ -94,7 +94,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Sign in to continue to your todos',
+                    AppStrings.signInMessage,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.grey[600],
                         ),
